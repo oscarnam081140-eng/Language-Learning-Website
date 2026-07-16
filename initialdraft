@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thai Phrases - Oscar</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 15px; line-height: 1.6; background: #f9f9f9; }
+    h1 { color: #2c3e50; }
+    .phrase { background: white; padding: 15px; margin: 12px 0; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    button { padding: 10px 16px; background: #3498db; color: white; border: none; border-radius: 6px; font-size: 16px; margin-top: 5px; }
+  </style>
+</head>
+<body>
+  <h1>🇹🇭 Thai Phrases 學習（Male Speaker kráp）</h1>
+  
+  <!-- Google Translate Widget -->
+  <div id="google_translate_element"></div>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'zh-HK'}, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <div class="phrase">
+    <strong>สวัสดีครับ</strong> (Sawasdee kráp) - 你好<br>
+    <button onclick="speak('สวัสดีครับ')">🔊 發音</button>
+  </div>
+
+  <script>
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'th-TH';
+      speechSynthesis.speak(utterance);
+    }
+  </script>
+</body>
+</html>

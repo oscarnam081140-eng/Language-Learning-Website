@@ -1,18 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-HK">
 <head>
   <meta charset="UTF-8">
-  <title>Test Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thai Phrases 學習</title>
   <style>
-    body { background: #e0f7fa; font-family: Arial; text-align: center; padding: 50px; }
-    h1 { color: #0277bd; }
-    p { font-size: 20px; }
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f0f8ff; }
+    h1 { text-align: center; color: #2c3e50; }
+    .phrase { background: white; padding: 18px; margin: 15px 0; border-radius: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.1); font-size: 18px; }
+    button { padding: 12px 20px; background: #e74c3c; color: white; border: none; border-radius: 8px; font-size: 16px; margin-top: 8px; }
   </style>
 </head>
 <body>
-  <h1>✅ Test 成功！</h1>
-  <p>呢個係你第一個 GitHub Pages 測試頁</p>
-  <p>如果見到呢句，就代表 setup 正確</p>
-  <p style="margin-top:50px; color:gray;">Oscar Thai Learning Site</p>
+  <h1>🇹🇭 Thai Phrases 學習網站</h1>
+  <p style="text-align:center;">Self Learning of Language</p>
+  
+  <!-- Google Translate -->
+  <div id="google_translate_element" style="margin-bottom:20px;"></div>
+  <script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'zh-HK'}, 'google_translate_element');
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <div class="phrase">
+    <strong>สวัสดีครับ</strong> (Sawasdee kráp)<br>
+    你好<br>
+    <button onclick="speak('สวัสดีครับ')">🔊 發音</button>
+  </div>
+
+  <script>
+    function speak(text) {
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'th-TH';
+      speechSynthesis.speak(u);
+    }
+  </script>
 </body>
 </html>

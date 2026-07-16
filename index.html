@@ -3,39 +3,83 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thai Phrases 學習</title>
+  <title>Thai Phrases 學習網站</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; background: #f0f8ff; }
-    h1 { text-align: center; color: #2c3e50; }
-    .phrase { background: white; padding: 18px; margin: 15px 0; border-radius: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.1); font-size: 18px; }
-    button { padding: 12px 20px; background: #e74c3c; color: white; border: none; border-radius: 8px; font-size: 16px; margin-top: 8px; }
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f0f8ff; color: #333; }
+    h1 { text-align: center; color: #0277bd; }
+    .input-area { text-align: center; margin: 20px 0; }
+    input { padding: 12px; width: 70%; max-width: 400px; font-size: 18px; }
+    button { padding: 12px 20px; margin: 5px; font-size: 16px; }
+    .phrase { background: white; padding: 15px; margin: 12px 0; border-radius: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.1); }
+    .delete-btn { background: #e74c3c; color: white; padding: 5px 10px; font-size: 14px; }
   </style>
 </head>
 <body>
-  <h1>🇹🇭 Thai Phrases 學習網站</h1>
-  <p style="text-align:center;">Self Learning of Language</p>
-  
-  <!-- Google Translate -->
-  <div id="google_translate_element" style="margin-bottom:20px;"></div>
-  <script>
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'zh-HK'}, 'google_translate_element');
-    }
-  </script>
-  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <h1>🇹🇭 Thai Phrases 互動學習網站</h1>
+  <p style="text-align:center;">自己加詞彙 • 自動翻譯 • 永久儲存</p>
 
-  <div class="phrase">
-    <strong>สวัสดีครับ</strong> (Sawasdee kráp)<br>
-    你好<br>
-    <button onclick="speak('สวัสดีครับ')">🔊 發音</button>
+  <!-- Google Translate -->
+  <div id="google_translate_element" style="margin-bottom:15px; text-align:center;"></div>
+
+  <div class="input-area">
+    <input type="text" id="chineseInput" placeholder="輸入中文 (例如: 你好)" />
+    <button onclick="addPhrase()">➕ 翻譯 + 保存</button>
   </div>
 
+  <div id="phrasesList"></div>
+
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   <script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'zh-HK', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+    }
+
+    let phrases = JSON.parse(localStorage.getItem('thaiPhrases')) || [];
+
     function speak(text) {
       const u = new SpeechSynthesisUtterance(text);
       u.lang = 'th-TH';
       speechSynthesis.speak(u);
     }
+
+    function renderPhrases() {
+      const list = document.getElementById('phrasesList');
+      list.innerHTML = '';
+      phrases.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'phrase';
+        div.innerHTML = `
+          <strong>${item.thai}</strong> (${item.roman})<br>
+          ${item.chinese}<br>
+          <button onclick="speak('${item.thai}')">🔊 發音</button>
+          <button class="delete-btn" onclick="deletePhrase(${index})">🗑️</button>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    function addPhrase() {
+      const chinese = document.getElementById('chineseInput').value.trim();
+      if (!chinese) return alert("請輸入中文");
+
+      // 簡單模擬翻譯 (實際用 Google Translate 手動或之後 upgrade)
+      const thai = "กำลังแปล... (請用 Google Translate 輔助)";
+      const roman = "(romanization)";
+
+      phrases.unshift({ chinese, thai, roman });
+      localStorage.setItem('thaiPhrases', JSON.stringify(phrases));
+      renderPhrases();
+      document.getElementById('chineseInput').value = '';
+    }
+
+    function deletePhrase(index) {
+      phrases.splice(index, 1);
+      localStorage.setItem('thaiPhrases', JSON.stringify(phrases));
+      renderPhrases();
+    }
+
+    // 初始化
+    renderPhrases();
   </script>
 </body>
 </html>
